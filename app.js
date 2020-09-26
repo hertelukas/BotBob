@@ -421,7 +421,7 @@ function CalculateKing(){
 
 
 function Gamble(amount, msg){
-    if(isNaN(amount) && amount <= 0){
+    if(!isNaN(amount) &&  amount <= 0){
         msg.channel.send("Please gamble with a positive amount.");
         return;
     }

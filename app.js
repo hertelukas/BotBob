@@ -381,13 +381,14 @@ function Mute(_id, _value){
             console.log(`Muting ${tempMember}.`);
             mutedUsers.push(_id);
             mutedTimes.push(18);
-            tempMember.voice.setMute(true, "Please don't cry.");
+            tempMember.voice.setMute(true, "Please don't cry.").catch(alert);
+
         }
         else{
             console.log(`Unmuting ${tempMember}.`);
             mutedUsers.shift();
             mutedTimes.shift();
-            tempMember.voice.setMute(false);
+            tempMember.voice.setMute(false).catch(alert);
         } 
 
     });

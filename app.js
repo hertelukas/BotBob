@@ -92,6 +92,8 @@ bot.on('message', async function(msg) {
 
         var mentionedUser = msg.mentions.users.first();
 
+        if(mentionedUser == undefined) return;
+
         Player.findOne({id: msg.author.id}, function(err, foundUser){
             if(err){
                 console.log(err);

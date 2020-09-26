@@ -87,7 +87,7 @@ bot.on('message', async function(msg) {
         Gamble(Math.floor(amount), msg);
     }
 
-    if(message.substring(0,4) === mute){
+    if(message.substring(0,4) === 'mute'){
         messageSent = true;
 
         var mentionedUser = msg.mentions.user.first();

@@ -379,13 +379,13 @@ function Mute(_id, _value){
         var member = value.guild.members.cache.get(_id);
 
         if(_value) {
-            console.log(`Muting ${member['nickname']}.`);
+            console.log(`Muting ${member}.`);
             mutedUsers.push(_id);
             mutedTimes.push(18);
             member.setMute(true, "Please don't cry.");
         }
         else{
-            console.log(`Unmuting ${member['nickname']}.`);
+            console.log(`Unmuting ${member}.`);
             mutedUsers.shift();
             mutedTimes.shift();
             member.setMute(false);

@@ -378,17 +378,15 @@ function Mute(_id, _value){
         var tempMember = value.guild.members.cache.get(_id);
 
         if(_value) {
-            console.log(`Muting ${tempMember}.`);
             mutedUsers.push(_id);
             mutedTimes.push(18);
-            tempMember.voice.setMute(true, "Please don't cry.").catch(alert);
+            tempMember.voice.setMute(true, "Please don't cry.").catch(function(){});
 
         }
         else{
-            console.log(`Unmuting ${tempMember}.`);
             mutedUsers.shift();
             mutedTimes.shift();
-            tempMember.voice.setMute(false).catch(alert);
+            tempMember.voice.setMute(false).catch(function(){});
         } 
 
     });

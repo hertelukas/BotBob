@@ -102,9 +102,7 @@ bot.on('message', async function(msg) {
                         msg.channel.send("You don't have enough points to mute someone.");
                         return;
                     }
-                    mutedUsers.push(mentionedUser);
-                    mutedTimes.push(18);
-                    mentionedUser.setMute(true, "Pls don't cry");
+                    Mute(mentionedUser.id, true);
                     foundUser.points -= 1000;
                     foundUser.save();
                 }
@@ -337,10 +335,12 @@ function CheckPlayers(){
         //Check muted players
         for (let i = 0; i < mutedUsers.length; i++) {
             if(mutedTimes[i] <= 0){
-                mutedUsers.setMute(false);
-                mutedUsers.shift();
-                mutedTimes.shift();
-            } 
+                Mute(mutedUsers[i], false);
+            }else{
+                mutedTimes[i] -= 1;
+            }
+
+            console.log(mutedUsers);
         }
 
         channels.forEach(channelId => {
@@ -365,6 +365,32 @@ function CheckPlayers(){
             });
         });
     }
+}
+
+
+async function Mute(_id, _value){
+    channel = bot.channels.fetch(channels[0]);
+
+    Promise.resolve(channel).then(function(value){
+        var role = value.guild.roles.cache.find(role => role.name == "MUTE");
+
+        var members = value.members;
+        members.forEach(member => {
+            if(member.id == _id){
+
+                if(_value) {
+                    mutedUsers.push(_id);
+                    mutedTimes.push(18);
+                    member.roles.add(role);
+                }
+                else{
+                    mutedUsers.shift();
+                    mutedTimes.shift();
+                    member.roles.remove(role);
+                } 
+            } 
+        });
+    });
 }
 
 function CalculateKing(){

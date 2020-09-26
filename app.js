@@ -71,7 +71,10 @@ bot.on('message', async function(msg) {
         messageSent = true;
         var amount = message.substring(6);
 
-        if(amount === "all")Gamble("all", msg);
+        if(amount === "all"){
+            Gamble("all", msg);
+            return;
+        }
 
         if(isNaN(amount)) {
             msg.channel.send("Please enter a number :(");

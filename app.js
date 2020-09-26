@@ -377,17 +377,15 @@ function Mute(_id, _value){
         var role = value.guild.roles.cache.find(role => role.name == "MUTE");
 
         var member = value.guild.members.cache.get(_id);
-        console.log(member.mute);
-
 
         if(_value) {
-            console.log(`Muting ${_id}.`);
+            console.log(`Muting ${member['nickname']}.`);
             mutedUsers.push(_id);
             mutedTimes.push(18);
             member.setMute(true, "Please don't cry.");
         }
         else{
-            console.log(`Unmuting ${_id}.`);
+            console.log(`Unmuting ${member['nickname']}.`);
             mutedUsers.shift();
             mutedTimes.shift();
             member.setMute(false);

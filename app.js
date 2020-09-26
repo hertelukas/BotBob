@@ -217,14 +217,14 @@ bot.on('message', async function(msg) {
 
                     players.forEach(player => {
                         if(i < 6){
-                            field = {'name': i + '. ' + player.name, 'value': player.points};
+                            field = {'name': i + '. ' + player.name, 'value': '`' + player.points + '`'};
                             fields.push(field);
                         }
                         i++;
                     });
                     const playersEmbed = new Discord.MessageEmbed()
                         .setColor('#0099ff')
-                        .setTitle('Players')
+                        .setTitle('Top Suchtis')
                         .addFields(fields)
                     msg.channel.send(playersEmbed);                    
                 });

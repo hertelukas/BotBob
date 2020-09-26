@@ -375,22 +375,22 @@ function Mute(_id, _value){
 
     Promise.resolve(channel).then(function(value){
         var role = value.guild.roles.cache.find(role => role.name == "MUTE");
-        console.log(role);
 
         var member = value.guild.members.cache.get(_id);
-        console.log(_value)
+        console.log(member.mute);
+
 
         if(_value) {
             console.log(`Muting ${_id}.`);
             mutedUsers.push(_id);
             mutedTimes.push(18);
-            member.roles.add(role);
+            member.setMute(true, "Please don't cry.");
         }
         else{
             console.log(`Unmuting ${_id}.`);
             mutedUsers.shift();
             mutedTimes.shift();
-            member.roles.remove(role);
+            member.setMute(false);
         } 
 
     });

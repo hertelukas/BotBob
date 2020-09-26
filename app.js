@@ -90,7 +90,7 @@ bot.on('message', async function(msg) {
     if(message.substring(0,4) === 'mute'){
         messageSent = true;
 
-        var mentionedUser = msg.mentions.user.first();
+        var mentionedUser = msg.mentions.users.first();
 
         Player.findOne({id: msg.author.id}, function(err, foundUser){
             if(err){

@@ -368,11 +368,13 @@ function CheckPlayers(){
 }
 
 
-async function Mute(_id, _value){
+function Mute(_id, _value){
     channel = bot.channels.fetch(channels[0]);
+    console.log(`Muting ${_id}.`);
 
     Promise.resolve(channel).then(function(value){
         var role = value.guild.roles.cache.find(role => role.name == "MUTE");
+        console.log(role);
 
         var members = value.members;
         members.forEach(member => {

@@ -11,6 +11,9 @@ var url = "mongodb://localhost:27017/botbob";
 
 isConnected = false;
 
+var mutedUsers = [];
+var mutedTimes = [];
+
 require('dotenv').config({path: __dirname + '/.env'});
 bot.login(process.env.TOKEN);
 
@@ -82,6 +85,31 @@ bot.on('message', async function(msg) {
         }
 
         Gamble(Math.floor(amount), msg);
+    }
+
+    if(message.substring(0,4) === mute){
+        messageSent = true;
+
+        var mentionedUser = msg.mentions.user.first();
+
+        Player.findOne({id: msg.author.id}, function(err, foundUser){
+            if(err){
+                console.log(err);
+                return;
+            }else{
+                if(foundUser){
+                    if(foundUser.points < 1000){
+                        msg.channel.send("You don't have enough points to mute someone.");
+                        return;
+                    }
+                    mutedUsers.push(mentionedUser);
+                    mutedTimes.push(18);
+                    mentionedUser.setMute(true, "Pls don't cry");
+                    foundUser.points -= 1000;
+                    foundUser.save();
+                }
+            }
+        });
     }
 
     if(message.substring(0,6) === 'insult'){
@@ -306,6 +334,15 @@ var channels = process.env.CHANNELS.split(' ');
 
 function CheckPlayers(){
     if(isConnected){
+        //Check muted players
+        for (let i = 0; i < mutedUsers.length; i++) {
+            if(mutedTimes[i] <= 0){
+                mutedUsers.setMute(false);
+                mutedUsers.shift();
+                mutedTimes.shift();
+            } 
+        }
+
         channels.forEach(channelId => {
             var channel = bot.channels.fetch(channelId);
 

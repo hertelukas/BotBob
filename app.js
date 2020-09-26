@@ -100,12 +100,12 @@ bot.on('message', async function(msg) {
                 return;
             }else{
                 if(foundUser){
-                    if(foundUser.points < 1000){
+                    if(foundUser.points < 0){
                         msg.channel.send("You don't have enough points to mute someone.");
                         return;
                     }
                     Mute(mentionedUser.id, true);
-                    foundUser.points -= 1000;
+                    foundUser.points -= 0;
                     foundUser.save();
                 }
             }

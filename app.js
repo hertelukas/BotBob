@@ -370,7 +370,6 @@ function CheckPlayers(){
 
 function Mute(_id, _value){
     channel = bot.channels.fetch(channels[0]);
-    console.log(`Muting ${_id}.`);
 
     Promise.resolve(channel).then(function(value){
         var role = value.guild.roles.cache.find(role => role.name == "MUTE");
@@ -379,13 +378,14 @@ function Mute(_id, _value){
         var members = value.members;
         members.forEach(member => {
             if(member.id == _id){
-
                 if(_value) {
+                    console.log(`Muting ${_id}.`);
                     mutedUsers.push(_id);
                     mutedTimes.push(18);
                     member.roles.add(role);
                 }
                 else{
+                    console.log(`Unmuting ${_id}.`);
                     mutedUsers.shift();
                     mutedTimes.shift();
                     member.roles.remove(role);

@@ -129,6 +129,47 @@ bot.on('message', async function(msg) {
         });
     }
 
+    if(message.substring(0,5) === 'steal'){
+        messageSent = true;
+
+        var mentionedUser = msg.mentions.users.first();
+
+        if(mentionedUser == undefined) return;
+
+        Player.findOne({id: msg.author.id}, function(err, author){
+            if(err){
+                console.log(err);
+                return;
+            }else{
+                var neededPoints = 250;
+                var successChance = 5;
+                if(author.points < neededPoints){
+                    msg.channel.send(`You don't have ${neededPoints} points to start a burglary.`);
+                }else{
+                    Player.findOne({id: mentionedUser['id']}, function(err, mentioned){
+                        rnd = Math.floor(Math.random() * successChance);
+                        if(rnd === 0){
+                            author.points -= neededPoints;
+                            author.save();
+                            mentioned.points += neededPoints;
+                            mentioned.save();
+                            msg.channel.send("You were discovered. Noob.");
+                            return;    
+                        }
+                        else{
+                            author.points += neededPoints / successChance;
+                            author.save();
+                            mentioned.points -= neededPoints / successChance;
+                            mentioned.save();
+                            msg.channel.send("Success.");
+                            return;
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     if(message.substring(0,6) === 'insult'){
         messageSent = true;
         var mentionedUser = msg.mentions.users.first();

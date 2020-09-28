@@ -566,7 +566,7 @@ function FindPrize(array){
 
     var current = array[0];
     var i;
-    for(i = 1; cur < rnd; ++i) current += array[i];
+    for(i = 1; current < rnd; ++i) current += array[i];
     return i;
 }
 

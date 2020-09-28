@@ -556,7 +556,7 @@ function HarmonicNumber(n){
 function CreateOutcomesP(n){
     var outcomes = [];
     var j = 1 / n;
-    for(var i = 1; i < n; ++i) outcomes.push(j / i);
+    for(var i = 1; i < n + 1; ++i) outcomes.push(j / i);
     return outcomes;
 }
 
@@ -564,7 +564,7 @@ function FindPrize(array){
     var rnd = Math.random() * ArraySum(array);
 
     var current = array[0];
-    var i;
+    var i = 1;
     for(i = 1; current < rnd; ++i) current += array[i];
     return i;
 }

@@ -461,7 +461,7 @@ function GambleFancy(amount, msg){
                 var probs = CreateOutcomesP(n);
                 var k = n / HarmonicNumber(n);
 
-                console.log(probs);
+                console.log(k);
 
                 var gainedPoints = 0;
                 gainedPoints = FindPrize(probs) * amount / k;
@@ -564,6 +564,8 @@ function CreateOutcomesP(n){
 
 function FindPrize(array){
     var rnd = Math.random() * ArraySum(array);
+
+    console.log(rnd);
 
     var current = array[0];
     var i = 1;

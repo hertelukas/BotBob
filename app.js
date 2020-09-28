@@ -578,4 +578,5 @@ function ArraySum(array){
     array.forEach(item => {
         sum += item;
     });
+    return sum;
 }

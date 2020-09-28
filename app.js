@@ -471,9 +471,9 @@ function GambleFancy(amount, msg){
                 CalculateKing();
 
                 var point = 'points';
-                if(gainedPoints === 1) point = 'point';
+                if(Math.abs(gainedPoints) === 1) point = 'point';
 
-                if(gainedPoints < 0) msg.channel.send(`You lost **${gainedPoints}** ${point}. gg ez wp`);
+                if(gainedPoints < 0) msg.channel.send(`You lost **${Math.abs(gainedPoints)}** ${point}. gg ez wp`);
                 else msg.channel.send(`You won **${gainedPoints}** ${point}.`);
             }else{
                 Init(msg);

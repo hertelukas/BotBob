@@ -455,16 +455,15 @@ function GambleFancy(amount, msg){
                     return;
                 }
                 //Calculation
+                player.points -= amount;
                 const n = 1000;
 
-                var outcomesP = CreateOutcomesP(n);
+                var probs = CreateOutcomesP(n);
                 var k = n / HarmonicNumber(n);
 
                 var gainedPoints = 0;
+                gainedPoints = FindPrize(probs) * amount / k;
 
-                gainedPoints = FindPrize(outcomesP);
-
-                gainedPoints -= amount;
                 player.points += gainedPoints; 
                 //End of calculation
 
@@ -555,10 +554,10 @@ function HarmonicNumber(n){
 }
 
 function CreateOutcomesP(n){
-    var array = [];
+    var outcomes = [];
     var j = 1 / n;
-    for(var i = 1; i < n; ++i) array.push(j / i);
-    return array;
+    for(var i = 1; i < n; ++i) outcomes.push(j / i);
+    return outcomes;
 }
 
 function FindPrize(array){

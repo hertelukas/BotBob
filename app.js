@@ -460,12 +460,11 @@ function GambleFancy(amount, msg){
                 var probs = CreateOutcomesP(n);
                 var k = n / HarmonicNumber(n);
 
-                console.log(k);
-
                 var gainedPoints = 0;
                 gainedPoints = Math.round(FindPrize(probs) * amount / k) - amount;
 
                 player.points += gainedPoints; 
+                player.save();
                 //End of calculation
 
                 CalculateKing();

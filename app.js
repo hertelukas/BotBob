@@ -149,7 +149,7 @@ bot.on('message', async function(msg) {
                     Player.findOne({id: mentionedUser['id']}, function(err, mentioned){
                         rnd = Math.floor(Math.random() * successChance);
                         if(mentioned.points < neededPoints / successChance) {
-                            msg.channel.send("You cant't steal from " + mentionedUser['nickname'] + " because he is poor af.");
+                            msg.channel.send("You cant't steal from " + mentioned.name + " because he is poor af.");
                             return;
                         }
                         if(rnd === 0){

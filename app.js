@@ -549,7 +549,7 @@ function PlayMedia(msg, file, volume = 0.5){
 function HarmonicNumber(n){
     var sum = 0;
 
-    for(var i = 0; i < n; ++i) sum += 1 / i;
+    for(var i = 1; i < n; ++i) sum += 1 / i;
     return sum;
 }
 

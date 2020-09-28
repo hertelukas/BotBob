@@ -455,7 +455,6 @@ function GambleFancy(amount, msg){
                     return;
                 }
                 //Calculation
-                player.points -= amount;
                 const n = 1000;
 
                 var probs = CreateOutcomesP(n);
@@ -464,7 +463,7 @@ function GambleFancy(amount, msg){
                 console.log(k);
 
                 var gainedPoints = 0;
-                gainedPoints = FindPrize(probs) * amount / k;
+                gainedPoints = Math.round(FindPrize(probs) * amount / k) - amount;
 
                 player.points += gainedPoints; 
                 //End of calculation
@@ -564,8 +563,6 @@ function CreateOutcomesP(n){
 
 function FindPrize(array){
     var rnd = Math.random() * ArraySum(array);
-
-    console.log(rnd);
 
     var current = array[0];
     var i = 1;

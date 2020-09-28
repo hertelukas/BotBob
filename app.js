@@ -87,6 +87,23 @@ bot.on('message', async function(msg) {
         Gamble(Math.floor(amount), msg);
     }
 
+    if(message.substring(0,11) === 'fancygamble'){
+        messageSent = true;
+        var amount = message.substring(11);
+
+        if(amount === "all"){
+            GambleFancy("all", msg);
+            return;
+        }
+
+        if(isNaN(amount)){
+            msg.channel.send("Please enter a number :(");
+            return;
+        }
+
+        GambleFancy(Math.floor(amount), msg);
+    }
+
     if(message.substring(0,4) === 'mute'){
         messageSent = true;
 
@@ -416,6 +433,56 @@ function CalculateKing(){
 }
 
 
+function GambleFancy(amount, msg){
+    if(!isNaN(amount) &&  amount <= 0){
+        msg.channel.send("Please gamble with a positive amount.");
+        return;
+    }
+    Player.findOne({id: msg.author.id}, function(err, player){
+        if(err){
+            console.log(err);
+            return;
+        }else{
+            if(player){
+                if(player.points == 0){
+                    msg.channel.send("You do not have any points at the moment :((. You have to play more!");
+                    return;
+                }
+                if(amount == "all") amount = player.points;
+
+                if(player.points < amount){
+                    msg.channel.send(`You don't have ${amount} points :(`);
+                    return;
+                }
+                //Calculation
+                const n = 1000;
+
+                var outcomesP = CreateOutcomesP(n);
+                var k = n / HarmonicNumber(n);
+
+                var gainedPoints = 0;
+
+                gainedPoints = FindPrize(outcomesP);
+
+                gainedPoints -= amount;
+                player.points += gainedPoints; 
+                //End of calculation
+
+                CalculateKing();
+
+                var point = 'points';
+                if(gainedPoints === 1) point = 'point';
+
+                if(gainedPoints < 0) msg.channel.send(`You lost **${gainedPoints}** ${point}. gg ez wp`);
+                else msg.channel.send(`You won **${gainedPoints}** ${point}.`);
+            }else{
+                Init(msg);
+                msg.channel.send("Uups, I had to register you first. You do not have any points yet.")
+            }
+        }
+    });
+}
+
 function Gamble(amount, msg){
     if(!isNaN(amount) &&  amount <= 0){
         msg.channel.send("Please gamble with a positive amount.");
@@ -478,4 +545,34 @@ function PlayMedia(msg, file, volume = 0.5){
             });
         }).catch(err => console.log(err));
     }
+}
+
+function HarmonicNumber(n){
+    var sum = 0;
+
+    for(var i = 0; i < n; ++i) sum += 1 / i;
+    return sum;
+}
+
+function CreateOutcomesP(n){
+    var array = [];
+    var j = 1 / n;
+    for(var i = 1; i < n; ++i) array.push(j / i);
+    return array;
+}
+
+function FindPrize(array){
+    var rnd = Math.random() * ArraySum(array);
+
+    var current = array[0];
+    var i;
+    for(i = 1; cur < rnd; ++i) current += array[i];
+    return i;
+}
+
+function ArraySum(array){
+    var sum = 0;
+    array.forEach(item => {
+        sum += item;
+    });
 }

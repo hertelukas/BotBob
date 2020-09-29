@@ -110,5 +110,23 @@
         "type": "audio",
         "file": "wapbap.mp3",
         "description": "This is just how it is :("
+    },
+    {
+        "name": "blitzlicht",
+        "type": "audio",
+        "file": "blitzlicht.mp3",
+        "description": "Sa4 auf dem Blitzlicht"
+    },
+    {
+        "name": "ez",
+        "type": "audio",
+        "file": "ez.mp3",
+        "description": "ez"
+    },
+    {
+        "name": "nett",
+        "type": "audio",
+        "file": "nett.mp3",
+        "description": "Was das denn"
     }
 ]

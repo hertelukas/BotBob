@@ -147,7 +147,7 @@ bot.on('message', async function(msg) {
                     msg.channel.send(`You don't have ${neededPoints} points to start a burglary.`);
                 }else{
                     Player.findOne({id: mentionedUser['id']}, function(err, mentioned){
-                        rnd = Math.floor(Math.random() * successChance);
+                        rnd = Math.floor(Math.random() * successChance + 1);
                         if(mentioned.points < neededPoints / successChance) {
                             msg.channel.send("You cant't steal from " + mentioned.name + " because he is poor af.");
                             return;

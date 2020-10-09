@@ -318,6 +318,22 @@ bot.on('message', async function(msg) {
                     }
                 });
                 break;
+            
+            case 'suchtfaktor':
+                Player.findOne({id: msg.author.id}, function(err, player){
+                    if(err){
+                        console.log(err);
+                        return;
+                    }else{
+                        if(player){
+                            var time = player.totalPoints / 12;
+                            msg.channel.send(`You have ${time} minutes gezockt.`);
+                        }else{
+                            msg.channel.send("Write !init to add your username to the database");
+                        }
+                    }
+                });
+                break;
         
             case 'topsuchtis':
                 Player.find(function(err, players){
@@ -447,6 +463,7 @@ function CheckPlayers(){
                         }else{
                             if(foundPlayer){
                                 foundPlayer.points = foundPlayer.points + 1;
+                                foundPlayer.totalPoints += 1;
                                 foundPlayer.save();
                             }
                         }

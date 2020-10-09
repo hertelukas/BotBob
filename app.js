@@ -327,7 +327,9 @@ bot.on('message', async function(msg) {
                     }else{
                         if(player){
                             var time = player.totalPoints / 12;
-                            msg.channel.send(`You have ${time.toFixed(2)} minutes gezockt.`);
+                            var hours = Math.floor(time / 60);
+                            var minutes = time%60;
+                            msg.channel.send(`You have ${hours} hours and ${minutes} minutes gezockt.`);
                         }else{
                             msg.channel.send("Write !init to add your username to the database");
                         }

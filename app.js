@@ -657,7 +657,7 @@ function CheatGamble(amount, msg){
                     return;
                 }
 
-                var weights = [0];
+                var weights = [0, 0, 0, 0, 0, 0, 2];
                 var rnd = Math.floor(Math.random() * weights.length);
 
                 var gainedPoints = amount * weights[rnd];

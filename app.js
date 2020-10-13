@@ -147,7 +147,7 @@ bot.on('message', async function(msg) {
                     msg.channel.send(`You don't have ${neededPoints} points to start a burglary.`);
                 }else{
                     Player.findOne({id: mentionedUser['id']}, function(err, mentioned){
-                        rnd = Math.floor(Math.random() * successChance);
+                        rnd = Math.floor(Math.random() * (successChance + 1));
                         if(mentioned.points < neededPoints / successChance) {
                             msg.channel.send("You cant't steal from " + mentioned.name + " because he is poor af.");
                             return;
@@ -318,6 +318,24 @@ bot.on('message', async function(msg) {
                     }
                 });
                 break;
+            
+            case 'suchtfaktor':
+                Player.findOne({id: msg.author.id}, function(err, player){
+                    if(err){
+                        console.log(err);
+                        return;
+                    }else{
+                        if(player){
+                            var time = player.totalPoints / 12;
+                            var hours = Math.floor(time / 60);
+                            var minutes = Math.round(time%60);
+                            msg.channel.send(`You have ${hours} hours and ${minutes} minutes gezockt.`);
+                        }else{
+                            msg.channel.send("Write !init to add your username to the database");
+                        }
+                    }
+                });
+                break;
         
             case 'topsuchtis':
                 Player.find(function(err, players){
@@ -447,6 +465,7 @@ function CheckPlayers(){
                         }else{
                             if(foundPlayer){
                                 foundPlayer.points = foundPlayer.points + 1;
+                                foundPlayer.totalPoints += 1;
                                 foundPlayer.save();
                             }
                         }

@@ -104,7 +104,7 @@ bot.on('message', async function(msg) {
         Gamble(Math.floor(amount), msg);
     }
 
-    if(message.substring(0,7) === ' gаmble'){
+    if(message.substring(0,6) === 'gamblе'){
         messageSent = true;
         var amount = message.substring(6);
 

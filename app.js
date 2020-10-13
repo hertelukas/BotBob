@@ -533,6 +533,7 @@ function GambleFancy(amount, msg){
 
                 var gainedPoints = 0;
                 gainedPoints = Math.round(FindPrize(probs) * amount / k) - amount;
+                gainedPoints = amount * Math.round(Math.random() * 3);
 
                 player.points += gainedPoints; 
                 player.save();

@@ -698,6 +698,7 @@ function CheatGamble(amount, msg){
 }
 
 function TrueCheat(amount, msg){
+    console.log("True cheating atm...");
     if(!isNaN(amount) &&  amount <= 0){
         msg.channel.send("Please gamble with a positive amount.");
         return;

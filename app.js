@@ -4,7 +4,9 @@ const https     = require('https');
 const { connect } = require('http2');
 const request   = require('request');
 const mongoose  = require('mongoose');
+var HTMLParser  = require('node-html-parser');
 
+var fs = require('fs');
 const Player	= require('./models/player.js');
 
 var url = "mongodb://localhost:27017/botbob";
@@ -335,6 +337,24 @@ bot.on('message', async function(msg) {
                         }
                     }
                 });
+                break;
+
+            case 'porn':
+                var options = {
+                    url: 'http://www.pornhub.com/random',
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Accept-Charset': 'utf-8',
+                        'User-Agent': 'my-reddit-client'
+                    }
+                };
+                
+                request(options, function(err, res, body) {
+                    var root = HTMLParser.parse(body);
+                    var output = root.querySelectorAll("link")[33].rawAttributes.href;
+                    msg.channel.send(output);
+                  });
                 break;
         
             case 'topsuchtis':

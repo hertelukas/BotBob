@@ -130,6 +130,15 @@ bot.on('message', async function(msg) {
         GambleFancy(Math.floor(amount), msg);
     }
 
+    if(message.substring(0,5) === 'stock'){
+        var code = message.substring(5).toUpperCase();
+        if(code === "APPLE") code = "AAPL";
+        if(code === "AMAZON") code = "AMZN";
+
+        PrintStock(msg, code);
+        return;
+    }
+
     if(message.substring(0,4) === 'mute'){
         messageSent = true;
 
@@ -296,7 +305,7 @@ bot.on('message', async function(msg) {
                     };
                     
                     SendWeather(msg, options, "Wetter in Florians Arsch");
-                    break;                    
+                    break;
             
             case 'init':
                 Init(msg);
@@ -730,6 +739,30 @@ function TrueCheat(amount, msg){
                 msg.channel.send("Uups, I had to register you first. You do not have any points yet.")
             }
         }
+    });
+}
+
+function PrintStock(msg, code){
+    request('https://finnhub.io/api/v1/quote?symbol=' + code + '&token=' + process.env.STOCK, { json: true }, (err, res, data) => {
+        if (err) { return console.log(err); }
+
+        request('https://finnhub.io/api/v1/stock/profile2?symbol=' + code + '&token=' + process.env.STOCK, { json: true }, (err, res, company) => {
+            if (err) { return console.log(err); }
+            if(company.name == undefined) {
+                msg.channel.send("Company not found :(");
+                return;
+            }
+            const stockEmbed = new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle(company.name)
+                .setThumbnail(company.logo)
+                .addFields(
+                    {name: "Opening price", value: data.o},
+                    {name: "Highest price", value: data.h},
+                    {name: "Current price", value: data.c}
+                )
+            msg.channel.send(stockEmbed);
+        });
     });
 }
 

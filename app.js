@@ -36,15 +36,6 @@ bot.on('ready', () =>{
     console.info(`Logged in as ${bot.user.tag}`);
     isConnected = true;
 });
-
-const { OpusEncoder } = require('@discordjs/opus');
-const { toUnicode } = require('punycode');
-const { kMaxLength } = require('buffer');
-const { Z_NEED_DICT } = require('zlib');
-const { isNull } = require('util');
-const { disconnect } = require('process');
-const { map } = require('async');
-const { update } = require('./models/player.js');
  
 var isPlaying = false;
 
@@ -262,19 +253,7 @@ bot.on('message', async function(msg) {
                     }
                 };
                 
-                request(options, function(err, res, body) {
-                    let json = JSON.parse(body);
-                    const weatherEmbed = new Discord.MessageEmbed()
-                        .setColor('#0099ff')
-                        .setTitle("Wetter auf dem Tromsberg")
-                        .addFields(
-                            {name: "Temperatur", value: parseInt(json.main.temp - 273.15) + '°C'},
-                            {name: 'Beschreibung', value: json.weather[0].description},
-                            {name: "Wind", value: parseInt(json.wind.speed * 3.6)+ ' km/h'}
-                        )
-                        .setThumbnail('http://openweathermap.org/img/wn/' + json.weather[0].icon + '@2x.png')
-                    msg.channel.send(weatherEmbed);
-                });
+                SendWeather(msg, options, "Wetter auf dem Tromsberg");            
                 break;
             
             case 'wetterz':
@@ -288,19 +267,7 @@ bot.on('message', async function(msg) {
                     }
                 };
                 
-                request(options, function(err, res, body) {
-                    let json = JSON.parse(body);
-                    const weatherEmbed = new Discord.MessageEmbed()
-                        .setColor('#0099ff')
-                        .setTitle("Wetter in Zürich")
-                        .addFields(
-                            {name: "Temperatur", value: parseInt(json.main.temp - 273.15) + '°C'},
-                            {name: 'Beschreibung', value: json.weather[0].description},
-                            {name: "Wind", value: parseInt(json.wind.speed * 3.6)+ ' km/h'}
-                        )
-                        .setThumbnail('http://openweathermap.org/img/wn/' + json.weather[0].icon + '@2x.png')
-                    msg.channel.send(weatherEmbed);
-                });
+                SendWeather(msg, options, "Wetter in Zürich");
                 break;
 
                 case 'wetterm':
@@ -314,20 +281,22 @@ bot.on('message', async function(msg) {
                         }
                     };
                     
-                    request(options, function(err, res, body) {
-                        let json = JSON.parse(body);
-                        const weatherEmbed = new Discord.MessageEmbed()
-                            .setColor('#0099ff')
-                            .setTitle("Wetter in München")
-                            .addFields(
-                                {name: "Temperatur", value: parseInt(json.main.temp - 273.15) + '°C'},
-                                {name: 'Beschreibung', value: json.weather[0].description},
-                                {name: "Wind", value: parseInt(json.wind.speed * 3.6)+ ' km/h'}
-                            )
-                            .setThumbnail('http://openweathermap.org/img/wn/' + json.weather[0].icon + '@2x.png')
-                        msg.channel.send(weatherEmbed);
-                    });
+                    SendWeather(msg, options, "Wetter in München");
                     break;
+                
+                case 'wettera':
+                    var options = {
+                        url: 'https://api.openweathermap.org/data/2.5/weather?lat=29.309&lon=46.414&lang=de&appid=' + process.env.OPEN_WEATHER_API,
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Accept-Charset': 'utf-8',
+                            'User-Agent': 'my-reddit-client'
+                        }
+                    };
+                    
+                    SendWeather(msg, options, "Wetter in Florians Arsch");
+                    break;                    
             
             case 'init':
                 Init(msg);
@@ -761,6 +730,22 @@ function TrueCheat(amount, msg){
                 msg.channel.send("Uups, I had to register you first. You do not have any points yet.")
             }
         }
+    });
+}
+
+function SendWeather(msg, options, title){
+    request(options, function(err, res, body) {
+        let json = JSON.parse(body);
+        const weatherEmbed = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(title)
+            .addFields(
+                {name: "Temperatur", value: parseInt(json.main.temp - 273.15) + '°C'},
+                {name: 'Beschreibung', value: json.weather[0].description},
+                {name: "Wind", value: parseInt(json.wind.speed * 3.6)+ ' km/h'}
+            )
+            .setThumbnail('http://openweathermap.org/img/wn/' + json.weather[0].icon + '@2x.png')
+        msg.channel.send(weatherEmbed);
     });
 }
 

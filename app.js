@@ -803,6 +803,7 @@ function PrintCurrency(msg, amount, convertTo){
                 .setTitle('Converting ' + amount + ' CHF')
                 .addFields(
                     {name: "EUR", value: (amount * data.EUR).toFixed(3)},
+                    {name: "GBP", value: (amount * data.GBP).toFixed(3)},
                     {name: "USD", value: (amount * data.USD).toFixed(3)}
                 )
             msg.channel.send(currencyEmbed);

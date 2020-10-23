@@ -31,6 +31,7 @@ mongoose.connect(url, {
 });
 
 var commands = require('./commands.json');
+const { env } = require('process');
 
 bot.on('ready', () =>{
     console.info(`Logged in as ${bot.user.tag}`);
@@ -131,11 +132,34 @@ bot.on('message', async function(msg) {
     }
 
     if(message.substring(0,5) === 'stock'){
+        messageSent = true;
         var code = message.substring(5).toUpperCase();
         if(code === "APPLE") code = "AAPL";
         if(code === "AMAZON") code = "AMZN";
 
         PrintStock(msg, code);
+        return;
+    }
+
+    if(message.substring(0,7) === 'convert'){
+        messageSent = true;
+        var digits = [];
+        var convertTo = '';
+        for (let i = 7; i < message.length; i++) {
+            if(isNaN(message[i])){
+                convertTo = message.substring(i);
+                break;
+            } 
+            else{
+                digits.push(message[i]);
+            }
+        }
+        var amount = 0;
+        for (let index = digits.length; index > 0; index--) {
+            amount += digits[digits.length - index] * Math.pow(10, index - 1);
+        }
+
+        PrintCurrency(msg, amount, convertTo);
         return;
     }
 
@@ -763,6 +787,33 @@ function PrintStock(msg, code){
                 )
             msg.channel.send(stockEmbed);
         });
+    });
+}
+
+function PrintCurrency(msg, amount, convertTo){
+    convertTo = convertTo.toUpperCase();
+    var base = 'CHF';
+    if(convertTo == 'CHF') base = 'EUR';
+    request('https://finnhub.io/api/v1/forex/rates?base=' + base + '&token=' + process.env.STOCK, { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        var data = body.quote;
+        if(convertTo == ''){
+            const currencyEmbed = new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle('Converting ' + amount + ' CHF')
+                .addFields(
+                    {name: "EUR", value: (amount * data.EUR).toFixed(3)},
+                    {name: "USD", value: (amount * data.USD).toFixed(3)}
+                )
+            msg.channel.send(currencyEmbed);
+            return;            
+        }
+        else{
+            msg.channel.send(`${amount} ${base} are ${(amount * data[convertTo]).toFixed(3)} ${convertTo}`);
+        }
+
+
+
     });
 }
 

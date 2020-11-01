@@ -137,7 +137,7 @@ bot.on('message', async function(msg) {
 
             openQuestions[msg.author.id] = {solution:solution, country_0: country_0, country_1: country_1};
 
-            msg.channel.send(`Is \`${country_0.name}\` or \`${country_1.name}\` bigger? Type \`!guess0\` for the first one, \`!guess1\` for the second.`)
+            msg.channel.send(`Is \`${country_0.name}\` or \`${country_1.name}\` bigger (population)? Type \`!guess0\` for the first one, \`!guess1\` for the second.`)
 
         });
 

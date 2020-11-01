@@ -68,8 +68,7 @@ bot.on('message', async function(msg) {
     if(message.substring(0,5) === 'guess'){
         messageSent = true;
         var num = message.substring(5);
-        var question = openQuestions[msg.author.id];
-        var solution = 'Wrong :((((';
+
         if(question != undefined){
             
             if(streaks[msg.author.username] == undefined){
@@ -84,38 +83,11 @@ bot.on('message', async function(msg) {
                     else{
                         streaks[msg.author.username] = {highscore: foundUser.highscore, currentStreak: 0};
                     }
-                    streak = streaks[msg.author.username];
-                    if(question.solution == num){
-                        solution = 'Correct!';
-                        streaks[msg.author.username].currentStreak += 1;
-                        if(streak.currentStreak > streak.highscore){
-                            streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
-                            foundUser.highscore = streaks[msg.author.username].highscore;
-                            foundUser.save();
-                        }
-                    }else{
-                        streaks[msg.author.username].currentStreak = 0;
-                    }
+                    HandleGuess(msg, num);
                 });
-            } else{
-                streak = streaks[msg.author.username];
-                if(question.solution == num){
-                    solution = 'Correct!';
-                    streaks[msg.author.username].currentStreak += 1;
-                    if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
-                    Player.findOne({id: msg.author.id}, function(err, foundUser){
-                        if(err){
-                            console.log(err);
-                            return;
-                        }
-                        if(foundUser){
-                            foundUser.highscore = streaks[msg.author.username].highscore;
-                            foundUser.save();
-                        }
-                    });
-                }else{
-                    streaks[msg.author.username].currentStreak = 0;
-                }
+            }
+            else{
+                HandleGuess(msg, num);
             }
 
 
@@ -1054,6 +1026,30 @@ function HarmonicNumber(n){
     return sum;
 }
 
+function HandleGuess(msg, num){
+    var question = openQuestions[msg.author.id];
+    var solution = 'Wrong :((((';
+    
+    streak = streaks[msg.author.username];
+    if(question.solution == num){
+        solution = 'Correct!';
+        streaks[msg.author.username].currentStreak += 1;
+        if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
+        Player.findOne({id: msg.author.id}, function(err, foundUser){
+            if(err){
+                console.log(err);
+                return;
+            }
+            if(foundUser){
+                foundUser.highscore = streaks[msg.author.username].highscore;
+                foundUser.save();
+            }
+        });
+    }else{
+        streaks[msg.author.username].currentStreak = 0;
+    }
+}
+
 function CreateOutcomesP(n){
     var outcomes = [];
     var j = 1 / n;
@@ -1077,3 +1073,4 @@ function ArraySum(array){
     });
     return sum;
 }
+                            

@@ -92,18 +92,6 @@ bot.on('message', async function(msg) {
             }
 
 
-            var answerEmbed = new Discord.MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle(solution)
-                .addFields(
-                    {name: question.country_0.name, value: `\`${question.country_0.population}\``},
-                    {name: question.country_1.name, value: `\`${question.country_1.population}\``},
-                    {name: "Current streak", value: streaks[msg.author.username].currentStreak},
-                    {name: "Highest streak", value: streaks[msg.author.username].highscore}
-                )
-            msg.channel.send(answerEmbed);
-
-            delete openQuestions[msg.author.id];
 
         }else{
             msg.channel.send("You do not have any open questions.");
@@ -1029,7 +1017,6 @@ function HarmonicNumber(n){
 
 function HandleGuess(msg, num, question){
     var solution = 'Wrong :((((';
-    console.log(msg, question);
 
     streak = streaks[msg.author.username];
     if(question.solution == num){
@@ -1049,6 +1036,20 @@ function HandleGuess(msg, num, question){
     }else{
         streaks[msg.author.username].currentStreak = 0;
     }
+
+
+    var answerEmbed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(solution)
+        .addFields(
+            {name: question.country_0.name, value: `\`${question.country_0.population}\``},
+            {name: question.country_1.name, value: `\`${question.country_1.population}\``},
+            {name: "Current streak", value: streaks[msg.author.username].currentStreak},
+            {name: "Highest streak", value: streaks[msg.author.username].highscore}
+        )
+    msg.channel.send(answerEmbed);
+
+    delete openQuestions[msg.author.id];
 }
 
 function CreateOutcomesP(n){

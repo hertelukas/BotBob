@@ -145,10 +145,14 @@ bot.on('message', async function(msg) {
     if(message.substring(0,4) === 'give'){
         messageSent = true;
         var digits = [];
-        var giveTo = '';
+        if(isNaN(message[4])){
+            msg.channel.send("please enter a number :(");
+            return;
+        }
+
         for (let i = 4; i < message.length; i++){
+            if(message[i] == ' ') break;
             if(isNaN(message[i])){
-                giveTo = message.substring(i);
                 break;
             } 
             else{
@@ -159,6 +163,8 @@ bot.on('message', async function(msg) {
         for (let index = digits.length; index > 0; index--) {
             amount += digits[digits.length - index] * Math.pow(10, index - 1);
         }
+        console.log(digits);
+        console.log(amount);
 
         var mentionedUser = msg.mentions.users.first();
 

@@ -163,8 +163,6 @@ bot.on('message', async function(msg) {
         for (let index = digits.length; index > 0; index--) {
             amount += digits[digits.length - index] * Math.pow(10, index - 1);
         }
-        console.log(digits);
-        console.log(amount);
 
         var mentionedUser = msg.mentions.users.first();
 
@@ -192,6 +190,9 @@ bot.on('message', async function(msg) {
                             foundUser.points -= amount;
                             foundUser.save();
                             msg.channel.send("Transaction succeeded.");
+                        }
+                        else{
+                            msg.channel.send("Player not found :(")
                         }
                     });
                 }

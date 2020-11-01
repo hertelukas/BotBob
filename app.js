@@ -33,6 +33,7 @@ mongoose.connect(url, {
 var commands = require('./commands.json');
 const { env } = require('process');
 const { retry } = require('async');
+const { count } = require('console');
 
 bot.on('ready', () =>{
     console.info(`Logged in as ${bot.user.tag}`);
@@ -43,6 +44,8 @@ var isPlaying = false;
 
 setInterval(CheckPlayers, 5000);
 
+var streaks = {};
+var openQuestions = {};
 
 bot.on('message', async function(msg) {
     if(!msg.content.startsWith('!')) return;
@@ -64,6 +67,81 @@ bot.on('message', async function(msg) {
             }
         }
     });
+
+    if(message.substring(0,5) === 'guess'){
+        messageSent = true;
+        var num = message.substring(5);
+        var question = openQuestions[msg.author.id];
+        var solution = 'Wrong :((((';
+        if(question != undefined){
+            
+            if(streaks[msg.author.username] == undefined){
+                streaks[msg.author.username] = {highscore: 0, currentStreak: 0};
+            } 
+            streak = streaks[msg.author.username];
+            if(question.solution == num){
+                solution = 'Correct!';
+                streaks[msg.author.username].currentStreak += 1;
+                if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
+            }else{
+                streaks[msg.author.username].currentStreak = 0;
+            }
+
+            var answerEmbed = new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle(solution)
+                .addFields(
+                    {name: question.country_0.name, value: `\`${question.country_0.population}\``},
+                    {name: question.country_1.name, value: `\`${question.country_1.population}\``},
+                    {name: "Current streak", value: streaks[msg.author.username].currentStreak},
+                    {name: "Highest streak", value: streaks[msg.author.username].highscore}
+                )
+            msg.channel.send(answerEmbed);
+
+            delete openQuestions[msg.author.id];
+
+        }else{
+            msg.channel.send("You do not have any open questions.");
+            return;
+        }        
+    }
+
+
+    if(message.substring(0,11) === 'higherlower'){
+        messageSent = true;
+
+        //TODO Check if the user has any open questions.
+        if(openQuestions[msg.author.id] != undefined){
+            msg.channel.send("You have an open question. Answer it first!");
+            return;
+        }
+
+        var options = {
+            url: 'https://restcountries.eu/rest/v2/all',
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Accept-Charset': 'utf-8',
+                'User-Agent': 'my-reddit-client'
+            }
+        };
+
+        request(options, function(err, res, body) {
+            let json = JSON.parse(body);
+            var keys = Object.keys(json);
+            var country_0 = json[keys[Math.floor(Math.random() * keys.length)]];
+            var country_1 = json[keys[Math.floor(Math.random() * keys.length)]];            
+            var solution = 0;
+
+            if(country_1.population > country_0.population) solution = 1;
+
+            openQuestions[msg.author.id] = {solution:solution, country_0: country_0, country_1: country_1};
+
+            msg.channel.send(`Is \`${country_0.name}\` or \`${country_1.name}\` bigger? Type \`!guess0\` for the first one, \`!guess1\` for the second.`)
+
+        });
+
+    }
 
     if(message.substring(0,6) === 'gamble'){
         messageSent = true;
@@ -396,6 +474,23 @@ bot.on('message', async function(msg) {
 
             case 'update':
                 Update(msg);
+                break;
+
+            case 'streak':
+
+                var fields = [];
+                var i = 0;
+
+                for(var key in streaks){
+                    i++;
+                    field = {'name': `${i}. ${key}`, value: streaks[key].highscore }
+                    fields.push(field);                    
+                };
+                const streaksEmbed = new Discord.MessageEmbed()
+                    .setColor('#0099ff')
+                    .setTitle('Top Streaks')
+                    .addFields(fields)
+                msg.channel.send(streaksEmbed); 
                 break;
 
             case 'points':

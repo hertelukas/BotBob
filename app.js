@@ -88,17 +88,11 @@ bot.on('message', async function(msg) {
                     if(question.solution == num){
                         solution = 'Correct!';
                         streaks[msg.author.username].currentStreak += 1;
-                        if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
-                        Player.findOne({id: msg.author.id}, function(err, foundUser){
-                            if(err){
-                                console.log(err);
-                                return;
-                            }
-                            if(foundUser){
-                                foundUser.highscore = streaks[msg.author.username].highscore;
-                                foundUser.save();
-                            }
-                        });
+                        if(streak.currentStreak > streak.highscore){
+                            streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
+                            foundUser.highscore = streaks[msg.author.username].highscore;
+                            foundUser.save();
+                        }
                     }else{
                         streaks[msg.author.username].currentStreak = 0;
                     }

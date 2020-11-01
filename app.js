@@ -32,6 +32,7 @@ mongoose.connect(url, {
 
 var commands = require('./commands.json');
 const { env } = require('process');
+const { retry } = require('async');
 
 bot.on('ready', () =>{
     console.info(`Logged in as ${bot.user.tag}`);
@@ -139,6 +140,57 @@ bot.on('message', async function(msg) {
 
         PrintStock(msg, code);
         return;
+    }
+
+    if(message.substring(0,4) === 'give'){
+        messageSent = true;
+        var digits = [];
+        var giveTo = '';
+        for (let i = 4; i < message.length; i++){
+            if(isNaN(message[i])){
+                giveTo = message.substring(i);
+                break;
+            } 
+            else{
+                digits.push(message[i]);
+            }
+        }
+        var amount = 0;
+        for (let index = digits.length; index > 0; index--) {
+            amount += digits[digits.length - index] * Math.pow(10, index - 1);
+        }
+
+        var mentionedUser = msg.mentions.users.first();
+
+        if(mentionedUser == undefined) return;
+
+        Player.findOne({id: msg.author.id}, function(err, foundUser){
+            if(err){
+                console.log(err);
+                return;
+            }
+            if(foundUser){
+                if(foundUser.points < amount){
+                    msg.channel.send(`You don't have ${amount} points.`);
+                    return;
+                }
+                else{
+                    Player.findOne({id: mentionedUser.id}, function(err, receiver){
+                        if(err){
+                            console.log(err);
+                            return;
+                        }
+                        if(receiver){
+                            receiver.points += amount;
+                            receiver.save();
+                            foundUser.points -= amount;
+                            foundUser.save();
+                            msg.channel.send("Transaction succeeded.");
+                        }
+                    });
+                }
+            }
+        })
     }
 
     if(message.substring(0,7) === 'convert'){

@@ -45,7 +45,7 @@ setInterval(CheckPlayers, 5000);
 
 bot.on('message', async function(msg) {
     if(!msg.content.startsWith('!')) return;
-    if(msg.channel.name != 'bot') return;
+    if(msg.channel.name.indexOf('bot') == -1) return;
     var message = msg.content.substring(1).toLowerCase();
 
     var messageSent = false;

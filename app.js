@@ -68,6 +68,7 @@ bot.on('message', async function(msg) {
     if(message.substring(0,5) === 'guess'){
         messageSent = true;
         var num = message.substring(5);
+        var question = openQuestions[msg.author.id];
 
         if(question != undefined){
             
@@ -83,11 +84,11 @@ bot.on('message', async function(msg) {
                     else{
                         streaks[msg.author.username] = {highscore: foundUser.highscore, currentStreak: 0};
                     }
-                    HandleGuess(msg, num);
+                    HandleGuess(msg, num, question);
                 });
             }
             else{
-                HandleGuess(msg, num);
+                HandleGuess(msg, num, question);
             }
 
 
@@ -1026,8 +1027,7 @@ function HarmonicNumber(n){
     return sum;
 }
 
-function HandleGuess(msg, num){
-    var question = openQuestions[msg.author.id];
+function HandleGuess(msg, num, question){
     var solution = 'Wrong :((((';
     console.log(msg, question);
 

@@ -31,9 +31,6 @@ mongoose.connect(url, {
 });
 
 var commands = require('./commands.json');
-const { env } = require('process');
-const { retry } = require('async');
-const { count } = require('console');
 
 bot.on('ready', () =>{
     console.info(`Logged in as ${bot.user.tag}`);
@@ -76,13 +73,34 @@ bot.on('message', async function(msg) {
         if(question != undefined){
             
             if(streaks[msg.author.username] == undefined){
-                streaks[msg.author.username] = {highscore: 0, currentStreak: 0};
+                Player.findOne({id: msg.author.id}, function(err, foundUser){
+                    if(err){
+                        console.log(err);
+                        return;
+                    }
+                    if(foundUser){
+                        streaks[msg.author.username] = {highscore: foundUser.highscore, currentStreak: 0};
+                    }
+                    else{
+                        streaks[msg.author.username] = {highscore: foundUser.highscore, currentStreak: 0};
+                    }
+                });
             } 
             streak = streaks[msg.author.username];
             if(question.solution == num){
                 solution = 'Correct!';
                 streaks[msg.author.username].currentStreak += 1;
                 if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
+                Player.findOne({id: msg.author.id}, function(err, foundUser){
+                    if(err){
+                        console.log(err);
+                        return;
+                    }
+                    if(foundUser){
+                        foundUser.highscore = streaks[msg.author.username].highscore;
+                        foundUser.save();
+                    }
+                });
             }else{
                 streaks[msg.author.username].currentStreak = 0;
             }

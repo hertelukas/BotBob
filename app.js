@@ -1029,7 +1029,8 @@ function HarmonicNumber(n){
 function HandleGuess(msg, num){
     var question = openQuestions[msg.author.id];
     var solution = 'Wrong :((((';
-    
+    console.log(msg, question);
+
     streak = streaks[msg.author.username];
     if(question.solution == num){
         solution = 'Correct!';

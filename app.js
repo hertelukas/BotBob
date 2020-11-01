@@ -140,7 +140,6 @@ bot.on('message', async function(msg) {
             msg.channel.send(`Is \`${country_0.name}\` or \`${country_1.name}\` bigger (population)? Type \`!guess0\` for the first one, \`!guess1\` for the second.`)
 
         });
-
     }
 
     if(message.substring(0,6) === 'gamble'){
@@ -476,8 +475,19 @@ bot.on('message', async function(msg) {
                 Update(msg);
                 break;
 
-            case 'streak':
+            case 'repeat':
+                var question = openQuestions[msg.author.id];
+                if(question != undefined){
+                    msg.channel.send(`Is \`${question.country_0.name}\` or \`${question.country_1.name}\` bigger (population)? Type \`!guess0\` for the first one, \`!guess1\` for the second. <@${msg.author.id}>`)
 
+                    return;
+                }else{
+                    msg.channel.send("You don't have any open questions.");
+                    return;
+                }
+                break;
+
+            case 'streak':
                 var fields = [];
                 var i = 0;
 

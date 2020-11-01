@@ -84,26 +84,46 @@ bot.on('message', async function(msg) {
                     else{
                         streaks[msg.author.username] = {highscore: foundUser.highscore, currentStreak: 0};
                     }
-                });
-            } 
-            streak = streaks[msg.author.username];
-            if(question.solution == num){
-                solution = 'Correct!';
-                streaks[msg.author.username].currentStreak += 1;
-                if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
-                Player.findOne({id: msg.author.id}, function(err, foundUser){
-                    if(err){
-                        console.log(err);
-                        return;
+                    streak = streaks[msg.author.username];
+                    if(question.solution == num){
+                        solution = 'Correct!';
+                        streaks[msg.author.username].currentStreak += 1;
+                        if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
+                        Player.findOne({id: msg.author.id}, function(err, foundUser){
+                            if(err){
+                                console.log(err);
+                                return;
+                            }
+                            if(foundUser){
+                                foundUser.highscore = streaks[msg.author.username].highscore;
+                                foundUser.save();
+                            }
+                        });
+                    }else{
+                        streaks[msg.author.username].currentStreak = 0;
                     }
-                    if(foundUser){
-                        foundUser.highscore = streaks[msg.author.username].highscore;
-                        foundUser.save();
-                    }
                 });
-            }else{
-                streaks[msg.author.username].currentStreak = 0;
+            } else{
+                streak = streaks[msg.author.username];
+                if(question.solution == num){
+                    solution = 'Correct!';
+                    streaks[msg.author.username].currentStreak += 1;
+                    if(streak.currentStreak > streak.highscore) streaks[msg.author.username].highscore = streaks[msg.author.username].currentStreak;
+                    Player.findOne({id: msg.author.id}, function(err, foundUser){
+                        if(err){
+                            console.log(err);
+                            return;
+                        }
+                        if(foundUser){
+                            foundUser.highscore = streaks[msg.author.username].highscore;
+                            foundUser.save();
+                        }
+                    });
+                }else{
+                    streaks[msg.author.username].currentStreak = 0;
+                }
             }
+
 
             var answerEmbed = new Discord.MessageEmbed()
                 .setColor('#0099ff')

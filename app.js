@@ -75,8 +75,7 @@ bot.on('message', async function(msg) {
             return;
         }
 
-        if(question != undefined){
-            
+        if(question != undefined){            
             if(streaks[msg.author.username] == undefined){
                 Player.findOne({id: msg.author.id}, function(err, foundUser){
                     if(err){
@@ -110,7 +109,8 @@ bot.on('message', async function(msg) {
 
         //TODO Check if the user has any open questions.
         if(openQuestions[msg.author.id] != undefined){
-            msg.channel.send("You have an open question. Answer it first!");
+            var question = openQuestions[msg.author.id];
+            msg.channel.send(`Is \`${question.country_0.name}\` or \`${question.country_1.name}\` bigger (population)? Type \`!guess0\` for the first one, \`!guess1\` for the second. <@${msg.author.id}>`)
             return;
         }
 

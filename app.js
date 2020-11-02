@@ -494,6 +494,13 @@ bot.on('message', async function(msg) {
                     field = {'name': `${i}. ${key}`, value: streaks[key].highscore }
                     fields.push(field);                    
                 };
+
+                fields.sort(function(a,b){
+                    if(a.value > b.value) return -1;
+                    if(a.value < b.value) return 1;
+                    return 0;
+                });
+
                 const streaksEmbed = new Discord.MessageEmbed()
                     .setColor('#0099ff')
                     .setTitle('Top Streaks')

@@ -70,7 +70,7 @@ bot.on('message', async function(msg) {
         var num = message.substring(5);
         var question = openQuestions[msg.author.id];
 
-        if(num != 0 && num != 1) {
+        if(num != 0 && num != 1 || num == undefined) {
             msg.channel.send("Please enter 0 or 1.");
             return;
         }

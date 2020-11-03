@@ -556,7 +556,10 @@ bot.on('message', async function(msg) {
                 
                 request(options, function(err, res, body) {
                     var root = HTMLParser.parse(body);
-                    var output = root.querySelectorAll("link")[33].rawAttributes.href;
+                    var output = root.querySelectorAll("link")[35].rawAttributes.href;
+                    // root.querySelectorAll("link").forEach(element => {
+                    //     console.log(element.rawAttributes.href);
+                    // });
                     msg.channel.send(output);
                   });
                 break;

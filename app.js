@@ -491,7 +491,7 @@ bot.on('message', async function(msg) {
 
                 for(var key in streaks){
                     i++;
-                    field = {'name': `${i}. ${key}`, value: streaks[key].highscore }
+                    field = {'name': `${key}`, value: streaks[key].highscore }
                     fields.push(field);                    
                 };
 
@@ -502,7 +502,7 @@ bot.on('message', async function(msg) {
                 });
 
                 for (let i = 1; i <= fields.length; i++) {
-                    fields[i - 1].name = i;
+                    fields[i - 1].name = i + '. ' + fields[i - 1].name;
                 }
 
                 const streaksEmbed = new Discord.MessageEmbed()

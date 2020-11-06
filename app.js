@@ -1061,14 +1061,18 @@ function HandleGuess(msg, num, question){
         .setColor('#0099ff')
         .setTitle(solution)
         .addFields(
-            {name: question.country_0.name, value: `\`${question.country_0.population}\``},
-            {name: question.country_1.name, value: `\`${question.country_1.population}\``},
+            {name: question.country_0.name, value: `\`${FormatNumber(question.country_0.population)}\``},
+            {name: question.country_1.name, value: `\`${FormatNumber(question.country_1.population)}\``},
             {name: "Current streak", value: streaks[msg.author.username].currentStreak},
             {name: "Highest streak", value: streaks[msg.author.username].highscore}
         )
     msg.channel.send(answerEmbed);
 
     delete openQuestions[msg.author.id];
+}
+
+function FormatNumber(n){
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function CreateOutcomesP(n){

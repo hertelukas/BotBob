@@ -501,6 +501,10 @@ bot.on('message', async function(msg) {
                     return 0;
                 });
 
+                for (let i = 1; i <= fields.length; i++) {
+                    fields[i - 1].name = i;
+                }
+
                 const streaksEmbed = new Discord.MessageEmbed()
                     .setColor('#0099ff')
                     .setTitle('Top Streaks')

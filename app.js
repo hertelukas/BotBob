@@ -876,6 +876,7 @@ function CalculateKing(){
             });
             console.log(topplayer);
             var topmember = value.guild.members.cache.get(topplayer.id);
+            topmember = topmember.fetch();
             console.log(topmember);
             topmember.roles.add(role);
         });

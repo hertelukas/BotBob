@@ -16,6 +16,10 @@ isConnected = false;
 var mutedUsers = [];
 var mutedTimes = [];
 
+var roleMessage;
+var csRole;
+var amongUsRole;
+
 require('dotenv').config({path: __dirname + '/.env'});
 bot.login(process.env.TOKEN);
 
@@ -35,7 +39,29 @@ var commands = require('./commands.json');
 bot.on('ready', () =>{
     console.info(`Logged in as ${bot.user.tag}`);
     isConnected = true;
+
+    RebootRoles();
 });
+
+async function RebootRoles(){
+    console.log("Rebooting roloes");
+
+    channel = bot.channels.fetch(process.env.ROLECHANNEL);
+    Promise.resolve(channel).then(async function(value){
+        let fetched;
+        do{
+            fetched = await value.messages.fetch({limit: 100});
+            value.bulkDelete(fetched);
+        }
+        while(fetched.size >= 2);
+        tempRoleMessage = value.send('Choose your role by reacting with the emoji of the game!');
+        Promise.resolve(tempRoleMessage).then(function(message){
+            roleMessage = message.id;
+        });
+        csRole = value.guild.roles.cache.find(role => role.name  == "CS:GO");
+        amongUsRole = value.guild.roles.cache.find(role => role.name  == "Among Us");
+    });
+}
  
 var isPlaying = false;
 
@@ -644,6 +670,56 @@ async function Init(msg){
         });
     });
 }
+
+bot.on('messageReactionAdd', async(reaction, user) => {    
+    if(reaction.message.id == roleMessage) {
+        var roleChannel = process.env.ROLECHANNEL;
+        channel = bot.channels.fetch(roleChannel);
+        Promise.resolve(channel).then(function(value){
+            var members = value.members;
+            switch (reaction.emoji.name) {
+                case "csgo": 
+                    members.forEach(member =>{
+                        if(member.id == user.id)member.roles.add(csRole);
+                    });
+                    break;
+                
+                case "AmongUs":
+                    members.forEach(member =>{
+                        if(member.id == user.id)member.roles.add(amongUsRole);
+                    });
+            
+                default:
+                    break;
+            }
+        });
+    }
+});
+
+bot.on('messageReactionRemove', async(reaction,user) => {
+    if(reaction.message.id == roleMessage) {
+        var roleChannel = process.env.ROLECHANNEL;
+        channel = bot.channels.fetch(roleChannel);
+        Promise.resolve(channel).then(function(value){
+            var members = value.members;
+            switch (reaction.emoji.name) {
+                case "csgo": 
+                    members.forEach(member =>{
+                        if(member.id == user.id)member.roles.remove(csRole);
+                    });
+                    break;
+                
+                case "AmongUs":
+                    members.forEach(member =>{
+                        if(member.id == user.id)member.roles.remove(amongUsRole);
+                    });
+            
+                default:
+                    break;
+            }
+        });
+    }
+});
 
 
 function Update(msg){

@@ -1,5 +1,5 @@
 const Discord   = require('discord.js');
-const bot       = new Discord.Client();
+const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
 const https     = require('https');
 const { connect } = require('http2');
 const request   = require('request');
@@ -49,16 +49,17 @@ async function RebootRoles(){
 
     channel = bot.channels.fetch(process.env.ROLECHANNEL);
     Promise.resolve(channel).then(async function(value){
-        let fetched;
-        do{
-            fetched = await value.messages.fetch({limit: 100});
-            value.bulkDelete(fetched);
-        }
-        while(fetched.size >= 2);
-        tempRoleMessage = value.send('Choose your role by reacting with the emoji of the game!');
-        Promise.resolve(tempRoleMessage).then(function(message){
-            roleMessage = message.id;
-        });
+        // let fetched;
+        // do{
+        //     fetched = await value.messages.fetch({limit: 100});
+        //     value.bulkDelete(fetched);
+        // }
+        // while(fetched.size >= 2);
+        // tempRoleMessage = value.send('Pick roles to get notified when someones pings those players!');
+        // Promise.resolve(tempRoleMessage).then(function(message){
+        //     roleMessage = message.id;
+        // });
+        roleMessage = process.env.ROLEMESSAGE;
         csRole = value.guild.roles.cache.find(role => role.name  == "CS:GO");
         amongUsRole = value.guild.roles.cache.find(role => role.name  == "Among Us");
         valorantRole = value.guild.roles.cache.find(role => role.name  == "Valorant");
@@ -675,6 +676,17 @@ async function Init(msg){
 }
 
 bot.on('messageReactionAdd', async(reaction, user) => {    
+    if (reaction.partial) {
+		// If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error('Something went wrong when fetching the message: ', error);
+			// Return as `reaction.message.author` may be undefined/null
+			return;
+		}
+    }
+    
     if(reaction.message.id == roleMessage) {
         var roleChannel = process.env.ROLECHANNEL;
         channel = bot.channels.fetch(roleChannel);
@@ -713,6 +725,16 @@ bot.on('messageReactionAdd', async(reaction, user) => {
 });
 
 bot.on('messageReactionRemove', async(reaction,user) => {
+    if (reaction.partial) {
+		// If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error('Something went wrong when fetching the message: ', error);
+			// Return as `reaction.message.author` may be undefined/null
+			return;
+		}
+	}
     if(reaction.message.id == roleMessage) {
         var roleChannel = process.env.ROLECHANNEL;
         channel = bot.channels.fetch(roleChannel);

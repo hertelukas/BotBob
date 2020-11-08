@@ -875,8 +875,7 @@ function CalculateKing(){
                 member.roles.remove(role);
             });
             console.log(topplayer);
-            var topmember = value.guild.members.cache.get(topplayer.id);
-            topmember = topmember.fetch();
+            var topmember = value.guild.members.fetch(topplayer.id);
             console.log(topmember);
             topmember.roles.add(role);
         });

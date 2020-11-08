@@ -876,6 +876,7 @@ function CalculateKing(){
                 Promise.resolve(looser).then(function(parsedLooser){
                     parsedLooser.roles.remove(role);
                 });
+                member.roles.remove(role);
             });
             var topmember = value.guild.members.fetch(topplayer.id);
             Promise.resolve(topmember).then(function(parsedTopPlayer){

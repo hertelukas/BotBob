@@ -62,6 +62,7 @@ async function RebootRoles(){
         csRole = value.guild.roles.cache.find(role => role.name  == "CS:GO");
         amongUsRole = value.guild.roles.cache.find(role => role.name  == "Among Us");
         valorantRole = value.guild.roles.cache.find(role => role.name  == "Valorant");
+        minecraftRole = value.guild.roles.cache.find(role => role.name  == "Minecraft");
     });
 }
  
@@ -697,6 +698,12 @@ bot.on('messageReactionAdd', async(reaction, user) => {
                         if(member.id == user.id)member.roles.add(valorantRole);
                     });
                     break;
+
+                case "minecraft":
+                    members.forEach(member => {
+                        if(member.id == user.id)member.roles.add(minecraftRole);
+                    });
+                    break;
             
                 default:
                     break;
@@ -729,7 +736,13 @@ bot.on('messageReactionRemove', async(reaction,user) => {
                         if(member.id == user.id)member.roles.remove(valorantRole);
                     });
                     break;
-            
+
+                case "minecraft":
+                    members.forEach(member => {
+                        if(member.id == user.id)member.roles.remove(minecraftRole);
+                    });
+                    break;
+        
                 default:
                     break;
             }

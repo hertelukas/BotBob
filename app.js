@@ -19,6 +19,7 @@ var mutedTimes = [];
 var roleMessage;
 var csRole;
 var amongUsRole;
+var valorantRole;
 
 require('dotenv').config({path: __dirname + '/.env'});
 bot.login(process.env.TOKEN);
@@ -60,6 +61,7 @@ async function RebootRoles(){
         });
         csRole = value.guild.roles.cache.find(role => role.name  == "CS:GO");
         amongUsRole = value.guild.roles.cache.find(role => role.name  == "Among Us");
+        valorantRole = value.guild.roles.cache.find(role => role.name  == "Valorant");
     });
 }
  
@@ -688,6 +690,13 @@ bot.on('messageReactionAdd', async(reaction, user) => {
                     members.forEach(member =>{
                         if(member.id == user.id)member.roles.add(amongUsRole);
                     });
+                    break;
+
+                case "valorant":
+                    members.forEach(member => {
+                        if(member.id == user.id)member.roles.add(valorantRole);
+                    });
+                    break;
             
                 default:
                     break;
@@ -713,6 +722,13 @@ bot.on('messageReactionRemove', async(reaction,user) => {
                     members.forEach(member =>{
                         if(member.id == user.id)member.roles.remove(amongUsRole);
                     });
+                    break;
+
+                case "valorant":
+                    members.forEach(member => {
+                        if(member.id == user.id)member.roles.remove(valorantRole);
+                    });
+                    break;
             
                 default:
                     break;

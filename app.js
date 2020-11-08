@@ -876,8 +876,11 @@ function CalculateKing(){
             });
             console.log(topplayer);
             var topmember = value.guild.members.fetch(topplayer.id);
-            console.log(topmember);
-            topmember.roles.add(role);
+            Promise.resolve(topmember).then(function(parsedTopPlayer){
+                console.log(parsedTopPlayer);
+                parsedTopPlayer.roles.add(role);
+            })
+
         });
     });
 }

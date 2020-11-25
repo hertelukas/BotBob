@@ -63,6 +63,13 @@
         "description": "Random Kollegah track"
     },
     {
+        "name": "electro",
+        "type": "randomAudio",
+        "file": ["techno0.mp3", "techno1.mp3", "techno2.mp3"],
+        "volume": [0.2, 0.2, 0.2],
+        "description": "electro"
+    },
+    {
         "name": "katja",
         "type": "randomAudio",
         "file": ["doggy.mp3", "sex.mp3", "fesseln.mp3"],
@@ -128,5 +135,23 @@
         "type": "audio",
         "file": "nett.mp3",
         "description": "Was das denn"
+    },
+    {
+        "name": "friends",
+        "type": "audio",
+        "file": "friends.mp3",
+        "description": "Mmmmmmmmmm"
+    },
+    {
+        "name": "messaround",
+        "type": "audio",
+        "file": "messaround.mp3",
+        "description": "Everyone is doing the mess around :("
+    },
+    {
+        "name": "intruder",
+        "type": "audio",
+        "file": "intruder.mp3",
+        "description": "-"
     }
 ]

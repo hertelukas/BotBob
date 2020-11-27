@@ -505,6 +505,10 @@ bot.on('message', async function(msg) {
                 Update(msg);
                 break;
 
+            case 'kleeb':
+                msg.channel.send("https://www.youtube.com/watch?v=pOLmD_WVY-E");
+                return;
+
             case 'repeat':
                 var question = openQuestions[msg.author.id];
                 if(question != undefined){

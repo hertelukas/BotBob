@@ -65,9 +65,16 @@
     {
         "name": "electro",
         "type": "randomAudio",
-        "file": ["techno0.mp3", "techno1.mp3", "techno2.mp3"],
-        "volume": [0.2, 0.2, 0.2],
+        "file": ["techno0.mp3", "techno1.mp3", "techno2.mp3", "techno3.mp3", "techno4.mp3"],
+        "volume": [0.2, 0.2, 0.2, 0.2, 0.2],
         "description": "electro"
+    },
+    {
+        "name": "jazz",
+        "type": "randomAudio",
+        "file": ["jazz0.mp3", "jazz1.mp3", "jazz2.mp3"],
+        "volume": [0.2, 0.2, 0.2],
+        "description": "Smooth jazz"
     },
     {
         "name": "katja",

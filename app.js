@@ -9,7 +9,7 @@ var HTMLParser  = require('node-html-parser');
 var fs = require('fs');
 const Player	= require('./models/player.js');
 
-var url = "mongodb://localhost:27017/botbob";
+var url = "mongodb://localhost:27017/players";
 
 isConnected = false;
 

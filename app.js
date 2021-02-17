@@ -509,6 +509,17 @@ bot.on('message', async function(msg) {
                 msg.channel.send("https://www.youtube.com/watch?v=pOLmD_WVY-E");
                 return;
 
+            case 'minecraft':
+                const minecraftEmbed = new Discord.MessageEmbed()
+                    .setColor("#0099ff")
+                    .setTitle("Setup Minecraft")
+                    .addFields({name: '1. Zerotier:', value: 'https://www.zerotier.com/download/'},
+                {name: '2. Connect to: ', value: "93afae59630f82c9"},
+                {name: '3. Mir schreiben', value: 'Lieber Lukas, adde mich pls'},
+                {name: '4. Minecraft Server', value: "192.168.191.156"});
+                msg.channel.send(minecraftEmbed);
+                break;
+
             case 'repeat':
                 var question = openQuestions[msg.author.id];
                 if(question != undefined){

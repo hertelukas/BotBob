@@ -160,5 +160,17 @@
         "type": "audio",
         "file": "intruder.mp3",
         "description": "-"
+    },
+    {
+        "name": "kevin",
+        "type": "audio",
+        "file": "kevin.mp3",
+        "description": "You can't eat cats"
+    },
+    {
+        "name": "lounge",
+        "type": "audio",
+        "file": "lounge.mp3",
+        "description": "Bobs techno"
     }
 ]

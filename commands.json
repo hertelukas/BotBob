@@ -172,5 +172,11 @@
         "type": "audio",
         "file": "lounge.mp3",
         "description": "Bobs techno"
+    },
+    {
+        "name": "creed", 
+        "type": "audio",
+        "file": "creed.mp3",
+        "description": "Peachpie"
     }
 ]

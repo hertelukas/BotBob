@@ -502,7 +502,8 @@ bot.on('message', async function(msg) {
                 break;
 
             case 'update':
-                Update(msg);
+		msg.channel.send("THX für das hihi");
+                //Update(msg);
                 break;
 
             case 'kleeb':

@@ -482,6 +482,7 @@ bot.on('message', async function(msg) {
                     
                     SendWeather(msg, options, "Wetter in München");
                     break;
+
                 
                 case 'wettera':
                     var options = {
@@ -500,6 +501,12 @@ bot.on('message', async function(msg) {
             case 'init':
                 Init(msg);
                 break;
+
+            case 'countdown':
+                var difference = new Date("Mar 6, 2021 16:15").getTime() - new Date().getTime();
+                var minutes = difference / 1000 / 60;
+                
+                msg.channel.send("Noch " + minutes + " Minuten bis fertig.");
 
             case 'update':
 		msg.channel.send("THX für das hihi");

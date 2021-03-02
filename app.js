@@ -504,9 +504,10 @@ bot.on('message', async function(msg) {
 
             case 'countdown':
                 var difference = new Date("Mar 6, 2021 16:15").getTime() - new Date().getTime();
-                var minutes = difference / 1000 / 60;
+                var minutes = Math.floor(difference / 1000 / 60);
                 
                 msg.channel.send("Noch " + minutes + " Minuten bis fertig.");
+                break;
 
             case 'update':
 		msg.channel.send("THX für das hihi");

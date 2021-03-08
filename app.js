@@ -514,6 +514,10 @@ bot.on('message', async function(msg) {
                 //Update(msg);
                 break;
 
+            case 'vote':
+                msg.channel.send("http://vote.lukas.fail");
+                return;
+
             case 'kleeb':
                 msg.channel.send("https://www.youtube.com/watch?v=pOLmD_WVY-E");
                 return;

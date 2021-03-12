@@ -533,10 +533,6 @@ bot.on('message', async function(msg) {
                 msg.channel.send(minecraftEmbed);
                 break;
 			
-	    case 'wm':
-	  	msg.channel.send("!wm");
-                break;
-			
             case 'repeat':
                 var question = openQuestions[msg.author.id];
                 if(question != undefined){

@@ -667,7 +667,7 @@ bot.on('message', async function(msg) {
                     var i = 1;
                     players.forEach(player => {
                         if(i < 6){
-                            field = {'name': i + '. '+ player.name, 'value': '`' + player.totalPoints / 12 / 60 + 'h`'};
+                            field = {'name': i + '. '+ player.name, 'value': '`' + Math.round(player.totalPoints / 12 / 60) + 'h`'};
                             fields.push(field);
                         }
                         i++;

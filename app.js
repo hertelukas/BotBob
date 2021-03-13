@@ -824,8 +824,6 @@ function Update(msg){
                     console.log(err);
                     return;
                 }else{
-                    console.log("updating " + )
-
                     if(foundPlayer) {
                         foundPlayer.name = member['nickname'];
                         foundPlayer.save();

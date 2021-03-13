@@ -510,7 +510,7 @@ bot.on('message', async function(msg) {
                 break;
 
             case 'update':
-		msg.channel.send("THX für das hihi");
+		        msg.channel.send("Wow, neue Nachricht");
                 //Update(msg);
                 break;
 

@@ -1,5 +1,6 @@
 const Discord   = require('discord.js');
-const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION', 'GUILD_MEMBERS', Intents.NON_PRIVILEGED] });
+const intents = new Discord.Intents([Discord.Intents.NON_PRIVILEGED, "GUILD_MEMBERS"]);
+const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION'], ws: {intents}});
 const https     = require('https');
 const { connect } = require('http2');
 const request   = require('request');

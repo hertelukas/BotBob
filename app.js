@@ -510,8 +510,7 @@ bot.on('message', async function(msg) {
                 break;
 
             case 'update':
-		        msg.channel.send("Wow, neue Nachricht");
-                //Update(msg);
+                Update(msg);
                 break;
 
             case 'vote':

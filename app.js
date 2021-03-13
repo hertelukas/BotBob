@@ -1,5 +1,5 @@
 const Discord   = require('discord.js');
-const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
+const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION', 'GUILD_MEMBERS'] });
 const https     = require('https');
 const { connect } = require('http2');
 const request   = require('request');
@@ -824,6 +824,8 @@ function Update(msg){
                     console.log(err);
                     return;
                 }else{
+                    console.log("updating " + )
+
                     if(foundPlayer) {
                         foundPlayer.name = member['nickname'];
                         foundPlayer.save();
@@ -1163,9 +1165,6 @@ function PrintCurrency(msg, amount, convertTo){
         else{
             msg.channel.send(`${amount} ${base} are ${(amount * data[convertTo]).toFixed(3)} ${convertTo}`);
         }
-
-
-
     });
 }
 

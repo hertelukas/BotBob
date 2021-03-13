@@ -628,7 +628,7 @@ bot.on('message', async function(msg) {
                   });
                 break;
         
-            case 'topsuchtis':
+            case 'richguys':
                 Player.find(function(err, players){
                     players.sort(function(a,b){
                         if(parseInt(a.points) > parseInt(b.points)) return -1;
@@ -649,12 +649,38 @@ bot.on('message', async function(msg) {
                     });
                     const playersEmbed = new Discord.MessageEmbed()
                         .setColor('#0099ff')
-                        .setTitle('Top Suchtis')
+                        .setTitle('Richest guys alive')
                         .addFields(fields)
                     msg.channel.send(playersEmbed);                    
                 });
                 break;
+
+            case 'topgamers':
+                Player.find(function(err, players){
+                    players.sort(function(a,b){
+                        if(parseInt(a.totalPoints) > parseInt(b.totalPoints)) return -1;
+                        if(parseInt(a.totalPoints) < parseInt(b.totalPoints)) return 1;
+                        return 0;
+                    });
+                    var fields = [];
+
+                    var i = 1;
+                    players.forEach(player => {
+                        if(i < 6){
+                            field = {'name': i + '. '+ player.name, 'value': '`' + player.totalPoints / 12 / 60 + 'h`'};
+                            fields.push(field);
+                        }
+                        i++;
+                    });
+                    const playersEmbed = new Discord.MessageEmbed()
+                        .setColor('#0099ff')
+                        .setTitle('Top Gamers')
+                        .addFields(fields)
+                    msg.channel.send(playersEmbed);  
+                });
+                break;
 	
+
             case 'stop':
                 if(isPlaying && msg.member.voice.channel != null) msg.member.voice.channel.leave();
                 isPlaying = false;

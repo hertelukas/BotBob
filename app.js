@@ -826,7 +826,8 @@ function Update(msg){
                     return;
                 }else{
                     if(foundPlayer) {
-                        foundPlayer.name = member['nickname'];
+                        if(typeof member['nickname'] !== 'undefined') foundPlayer.name = member['nickname'];
+                        else foundPlayer.name = member.user.username;
                         foundPlayer.save();
                     };
                     

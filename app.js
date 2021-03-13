@@ -1,5 +1,5 @@
 const Discord   = require('discord.js');
-const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION', 'GUILD_MEMBERS'] });
+const bot       = new Discord.Client({ partials: ['MESSAGE', 'REACTION', 'GUILD_MEMBERS', Intents.NON_PRIVILEGED] });
 const https     = require('https');
 const { connect } = require('http2');
 const request   = require('request');
@@ -824,6 +824,7 @@ function Update(msg){
                     console.log(err);
                     return;
                 }else{
+                    console.log(foundPlayer.name);
                     if(foundPlayer) {
                         foundPlayer.name = member['nickname'];
                         foundPlayer.save();

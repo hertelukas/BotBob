@@ -620,7 +620,14 @@ bot.on('message', async function(msg) {
                 
                 request(options, function(err, res, body) {
                     var root = HTMLParser.parse(body);
-                    var output = root.querySelectorAll("link")[35].rawAttributes.href;
+                    var i = 0;
+                    var output = "";
+                    root.querySelectorAll("link").forEach(link => {
+                        if(link.rawAttributes.href.toString().includes("pornhub.com/view_video")){
+                            output = link.rawAttributes.href;
+                            break;
+                        }
+                    });
                     // root.querySelectorAll("link").forEach(element => {
                     //     console.log(element.rawAttributes.href);
                     // });

@@ -625,7 +625,6 @@ bot.on('message', async function(msg) {
                     root.querySelectorAll("link").forEach(link => {
                         if(link.rawAttributes.href.toString().includes("pornhub.com/view_video")){
                             output = link.rawAttributes.href;
-                            break;
                         }
                     });
                     // root.querySelectorAll("link").forEach(element => {

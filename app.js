@@ -476,6 +476,9 @@ bot.on('message', async function(msg) {
                     break;
             
             case 'init':
+                if(msg.author.id != "515595203781066753"){
+                    msg.channel.send("not authorised :(");
+                }
                 Init(msg);
                 break;
 
@@ -487,6 +490,9 @@ bot.on('message', async function(msg) {
                 break;
 
             case 'update':
+                if(msg.author.id != "515595203781066753"){
+                    msg.channel.send("not authorised :(");
+                }
                 Update(msg);
                 break;
 

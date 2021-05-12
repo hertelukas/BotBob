@@ -331,7 +331,7 @@ bot.on('message', async function(msg) {
         var amount = args[1];
         var successChance = args[2];
 
-        if(amount <= 0 || successChance <= 1 || args.length != 4 || amount.isNaN || successChance.isNaN){
+        if(amount.isNaN|| successChance.isNaN || amount <= 0 || successChance <= 1 || args.length != 4 || ){
             msg.channel.send("Illegal arguments :(");
             return;
         }

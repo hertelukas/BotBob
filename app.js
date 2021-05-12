@@ -331,7 +331,7 @@ bot.on('message', async function(msg) {
         var amount = args[1];
         var successChance = args[2];
 
-        if(amount <= 0 || successChance <= 1){
+        if(amount <= 0 || successChance <= 1 || args.length != 4 || amount.isNaN || successChance.isNaN){
             msg.channel.send("Illegal arguments :(");
             return;
         }
@@ -344,6 +344,7 @@ bot.on('message', async function(msg) {
                 return;
             }else{
                 var neededPoints = amount * successChance;
+                msg.channel.send("Starting burglary. You're trying to steal " + amount + " with a success chance of " + successChance + "/" + successChance + 1);
                 if(author.points < neededPoints){
                     msg.channel.send(`You don't have ${neededPoints} points to start a burglary.`);
                 }else{

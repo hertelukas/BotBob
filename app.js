@@ -326,6 +326,15 @@ bot.on('message', async function(msg) {
 
         var mentionedUser = msg.mentions.users.first();
 
+        var args = message.split(" ");
+
+        for (let i = 0; i < args.length; i++) {
+            console.log(args[i]);
+        }
+
+        var amount = args[1];
+        var successChance = args[2];
+
         if(mentionedUser == undefined) return;
 
         Player.findOne({id: msg.author.id}, function(err, author){
@@ -333,8 +342,7 @@ bot.on('message', async function(msg) {
                 console.log(err);
                 return;
             }else{
-                var neededPoints = 250;
-                var successChance = 5;
+                var neededPoints = amount * successChance;
                 if(author.points < neededPoints){
                     msg.channel.send(`You don't have ${neededPoints} points to start a burglary.`);
                 }else{

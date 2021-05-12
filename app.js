@@ -328,10 +328,10 @@ bot.on('message', async function(msg) {
 
         var args = message.split(" ");
 
-        var amount = args[1];
-        var successChance = args[2];
+        var amount = parseInt(args[1]);
+        var successChance = parseInt(args[2]);
 
-        if(amount.isNaN|| successChance.isNaN || amount <= 0 || successChance <= 1 || args.length != 4){
+        if(isNaN(amount)|| isNaN(successChance) || amount <= 0 || successChance <= 1 || args.length != 4){
             msg.channel.send("Illegal arguments :(");
             return;
         }

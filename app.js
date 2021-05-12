@@ -328,12 +328,13 @@ bot.on('message', async function(msg) {
 
         var args = message.split(" ");
 
-        for (let i = 0; i < args.length; i++) {
-            console.log(args[i]);
-        }
-
         var amount = args[1];
         var successChance = args[2];
+
+        if(amount <= 0 || successChance <= 1){
+            msg.channel.send("Illegal arguments :(");
+            return;
+        }
 
         if(mentionedUser == undefined) return;
 
@@ -357,7 +358,7 @@ bot.on('message', async function(msg) {
                             author.save();
                             mentioned.points += neededPoints;
                             mentioned.save();
-                            msg.channel.send("You were discovered. Noob.");
+                            msg.channel.send("You were discovered. Noob. You lost " + neededPoints + " points.");
                             return;    
                         }
                         else{
@@ -365,7 +366,7 @@ bot.on('message', async function(msg) {
                             author.save();
                             mentioned.points -= neededPoints / successChance;
                             mentioned.save();
-                            msg.channel.send("Success.");
+                            msg.channel.send("Success. You won " + neededPoints / successChance + " points.");
                             return;
                         }
                     });

@@ -344,7 +344,7 @@ bot.on('message', async function(msg) {
                 return;
             }else{
                 var neededPoints = amount * successChance;
-                msg.channel.send("Starting burglary. You're trying to steal " + amount + " with a success chance of " + successChance + "/" + successChance + 1);
+                msg.channel.send("Starting burglary. You're trying to steal " + amount + " with a success chance of " + successChance + "/" + (successChance + 1));
                 if(author.points < neededPoints){
                     msg.channel.send(`You don't have ${neededPoints} points to start a burglary.`);
                 }else{

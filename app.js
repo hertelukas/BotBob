@@ -609,7 +609,6 @@ bot.on('message', async function(msg) {
                             return;
                         }
                     });
-                    msg.channel.send("Failed to get a random porn video :(");
                   });
                 break;
         

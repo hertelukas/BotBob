@@ -603,16 +603,13 @@ bot.on('message', async function(msg) {
                 request(options, function(err, res, body) {
                     var root = HTMLParser.parse(body);
                     var i = 0;
-                    var output = "";
                     root.querySelectorAll("link").forEach(link => {
                         if(link.rawAttributes.href.toString().includes("pornhub.com/view_video")){
-                            output = link.rawAttributes.href;
+                            msg.channel.send(link.rawAttributes.href);
+                            return;
                         }
                     });
-                    // root.querySelectorAll("link").forEach(element => {
-                    //     console.log(element.rawAttributes.href);
-                    // });
-                    msg.channel.send(output);
+                    msg.channel.send("Failed to get a random porn video :(");
                   });
                 break;
         
